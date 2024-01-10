@@ -1,0 +1,62 @@
+:root {
+  --primary: #f5f5f5;
+  --secondary: #a5a5a5;
+  --background: #5f5f69;
+  --ring: #f5f5f5;
+}
+
+.word-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+
+  top: 20vh;
+  right: -11em;
+  width: 12em;
+  min-height: 8em;
+  max-height: 28em;
+
+  border: 1px solid #2f2f39;
+  border-radius: 1em;
+  padding: 1em;
+
+  background: #5f5f69;
+
+  transition: ease 0.2s;
+  &:hover {
+    right: 0;
+  }
+
+  label {
+    user-select: none;
+    input {
+      height: 1rem;
+      width: 1rem;
+      flex-shrink: 0;
+      border-radius: 0.25rem;
+      border: 1px solid var(--primary);
+    }
+  }
+
+  input {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  input:nth-child(2) ~ div {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    & > div:not(:last-child) {
+      border-bottom: 1px solid var(--secondary);
+      padding: 0.1rem 0;
+    }
+
+    & > div:hover {
+      background: var(--secondary);
+      transition: ease 0.1s;
+    }
+  }
+}
