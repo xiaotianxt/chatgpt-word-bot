@@ -65,6 +65,15 @@ import "./index.less";
     constructor() {
       this.node = document.createElement("div");
       this.node.classList.add("word-container");
+
+      const stickBtn = document.createElement("button");
+      stickBtn.title = "Stick on side";
+      stickBtn.innerHTML = "&#128204;";
+      stickBtn.addEventListener('click', () => {
+        stickBtn.classList.toggle('active');
+      })
+      this.node.appendChild(stickBtn);
+
       const watchInput = document.createElement("label");
       watchInput.innerHTML = "<input type='checkbox' /> Watch input";
       watchInput.addEventListener("click", async (e) => {
@@ -82,9 +91,11 @@ import "./index.less";
 
       const input = document.createElement("input");
       input.addEventListener("paste", (e) => {
+        e.preventDefault();
         const text = (e as ClipboardEvent).clipboardData.getData("text");
         const words = text.split(/\s+/);
-        words.forEach(this.push);
+        input.value = "";
+        words.forEach((w) => this.push(w));
       });
       input.addEventListener("keydown", (e) => {
         // Enter pressed
@@ -110,13 +121,22 @@ import "./index.less";
       return mockInput(item);
     }
 
+    remove(item: string) {
+      const div = this.memo.get(item);
+      if (div) div.remove();
+
+      this.words = this.words.filter((w) => w !== item);
+      this.memo.delete(item);
+    }
+
     push(item: string) {
+      if (this.memo.get(item)) return;
       this.words.push(item);
       const div = document.createElement("div");
       div.innerText = item;
-      div.addEventListener("click", () => this.pop(item));
       this.memo.set(item, div);
       this.wordContainer.appendChild(div);
+      div.addEventListener("click", () => this.remove(item));
     }
   }
   const wordList = new WordList();
