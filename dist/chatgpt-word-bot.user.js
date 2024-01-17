@@ -8,12 +8,54 @@
 // @match       *://chat.openai.com/*
 // @match       *://chat.oaifree.com
 // @match       *://chat.oaifree.com/*
-// @grant       GM_addStyle
-// @grant       GM_addElement
 // @grant       GM_setValue
+// @grant       GM.setValue
 // @grant       GM_getValue
+// @grant       GM.getValue
+// @grant       GM_deleteValue
+// @grant       GM.deleteValue
+// @grant       GM_listValues
+// @grant       GM.listValues
+// @grant       GM_setClipboard
+// @grant       GM.setClipboard
+// @grant       GM_addStyle
+// @grant       GM.addStyle
+// @grant       GM_addElement
+// @grant       GM.addElement
+// @grant       GM_addValueChangeListener
+// @grant       GM.addValueChangeListener
+// @grant       GM_removeValueChangeListener
+// @grant       GM.removeValueChangeListener
+// @grant       GM_registerMenuCommand
+// @grant       GM.registerMenuCommand
+// @grant       GM_unregisterMenuCommand
+// @grant       GM.unregisterMenuCommand
+// @grant       GM_download
+// @grant       GM.download
+// @grant       GM_getTab
+// @grant       GM.getTab
+// @grant       GM_getTabs
+// @grant       GM.getTabs
+// @grant       GM_saveTab
+// @grant       GM.saveTab
+// @grant       GM_openInTab
+// @grant       GM.openInTab
+// @grant       GM_notification
+// @grant       GM.notification
+// @grant       GM_getResourceURL
+// @grant       GM.getResourceURL
+// @grant       GM_getResourceText
+// @grant       GM.getResourceText
 // @grant       GM_xmlhttpRequest
+// @grant       GM.xmlhttpRequest
+// @grant       GM_log
+// @grant       GM.log
+// @grant       GM_info
+// @grant       GM.info
 // @grant       unsafeWindow
+// @grant       window.onurlchange
+// @grant       window.focus
+// @grant       window.close
 // @run-at      document-body
 // @updateURL   https://github.com/xiaotianxt/chatgpt-word-bot.meta.js
 // @downloadURL https://github.com/xiaotianxt/chatgpt-word-bot.user.js
@@ -125,6 +167,7 @@
           div.remove();
         this.words = this.words.filter((w) => w !== item);
         this.memo.delete(item);
+        this.wordHistory.appendChild(div.cloneNode(true));
       }
       push(item) {
         if (this.memo.get(item))
@@ -182,7 +225,8 @@
   width: 1rem;
   flex-shrink: 0;
   border-radius: 0.25rem;
-  border: 1px solid var(--text-primary);
+  border: 1px solid var(--text-secondary);
+  background-color: transparent;
 }
 .word-container input {
   outline: none !important;
@@ -204,6 +248,9 @@
 .word-container input ~ div > div:hover {
   background: var(--surface-secondary);
   transition: ease 0.1s;
+}
+.word-container > div:last-child {
+  background-color: var(--surface-secondary);
 }
 `);
 })();

@@ -60,6 +60,7 @@ import "./index.less";
     memo: Map<string, HTMLDivElement> = new Map();
     node: HTMLDivElement;
     wordContainer: HTMLDivElement;
+    wordHistory: HTMLDivElement;
     enabled: boolean = false;
 
     constructor() {
@@ -69,9 +70,9 @@ import "./index.less";
       const stickBtn = document.createElement("button");
       stickBtn.title = "Stick on side";
       stickBtn.innerHTML = "&#128204;";
-      stickBtn.addEventListener('click', () => {
-        stickBtn.classList.toggle('active');
-      })
+      stickBtn.addEventListener("click", () => {
+        stickBtn.classList.toggle("active");
+      });
       this.node.appendChild(stickBtn);
 
       const watchInput = document.createElement("label");
@@ -127,6 +128,8 @@ import "./index.less";
 
       this.words = this.words.filter((w) => w !== item);
       this.memo.delete(item);
+
+      this.wordHistory.appendChild(div.cloneNode(true));
     }
 
     push(item: string) {

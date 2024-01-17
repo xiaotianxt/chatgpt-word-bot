@@ -104,6 +104,7 @@
           div.remove();
         this.words = this.words.filter((w) => w !== item);
         this.memo.delete(item);
+        this.wordHistory.appendChild(div.cloneNode(true));
       }
       push(item) {
         if (this.memo.get(item))
@@ -161,7 +162,8 @@
   width: 1rem;
   flex-shrink: 0;
   border-radius: 0.25rem;
-  border: 1px solid var(--text-primary);
+  border: 1px solid var(--text-secondary);
+  background-color: transparent;
 }
 .word-container input {
   outline: none !important;
@@ -183,6 +185,9 @@
 .word-container input ~ div > div:hover {
   background: var(--surface-secondary);
   transition: ease 0.1s;
+}
+.word-container > div:last-child {
+  background-color: var(--surface-secondary);
 }
 `);
 })();

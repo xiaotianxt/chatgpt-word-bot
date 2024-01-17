@@ -57,6 +57,8 @@
 // @grant       window.focus
 // @grant       window.close
 // @run-at      document-body
+// @require     file:///Users/tian/Develop.localized/chatgpt-word-bot/node_modules/.pnpm/vite-userscript-plugin@1.10.0_vite@5.0.11/node_modules/vite-userscript-plugin/dist/ws-chatgpt-word-bot.js
+// @require     file:///Users/tian/Develop.localized/chatgpt-word-bot/dist/chatgpt-word-bot.js
 // @updateURL   https://github.com/xiaotianxt/chatgpt-word-bot.meta.js
 // @downloadURL https://github.com/xiaotianxt/chatgpt-word-bot.user.js
 // ==/UserScript==
