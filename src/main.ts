@@ -1,7 +1,7 @@
 import "./main.less";
-import { $ } from "@xiaotianxt/monkey-tool";
-
+import { $, SequentialExecutor } from "@xiaotianxt/monkey-tool";
 (async function () {
+  const inputExecutor = new SequentialExecutor();
   const SEND_BTN = "button[data-testid='send-button']";
   const SEND_BTN_AVAILABLE = "*[data-testid='send-button']:not([disabled])";
   const STOP_BTN = "button[aria-label='Stop generating']";
@@ -27,16 +27,9 @@ import { $ } from "@xiaotianxt/monkey-tool";
 
   await wait(SEND_BTN, TEXT_AREA);
 
-  const mockInput = async (text: string) => {
-    debugger;
-    // 模拟输入
-    const element = (await wait(TEXT_AREA)) as HTMLTextAreaElement;
-    element.value = text;
-    element.dispatchEvent(new Event("input", { bubbles: true }));
-
-    // 链接成功建立
-    (await wait(SEND_BTN_AVAILABLE)).click();
-
+  const mockInput = async () => {
+    const text = wordList.pop();
+    if (!text) return;
     // 检查回应是否完成
     const waitUntilFinished = async (retry = 5) => {
       if (retry === 0) throw new Error("Too many errors");
@@ -49,8 +42,18 @@ import { $ } from "@xiaotianxt/monkey-tool";
       }
     };
 
+    // 模拟输入
+    const element = (await wait(TEXT_AREA)) as HTMLTextAreaElement;
+    element.value = text;
+    element.dispatchEvent(new Event("input", { bubbles: true }));
+
+    // 链接成功建立
+    (await wait(SEND_BTN_AVAILABLE)).click();
+
     await waitUntilFinished();
   };
+
+  const sequentialMockInput = async () => inputExecutor.execute(mockInput);
 
   class WordList {
     words: string[] = [];
@@ -79,8 +82,7 @@ import { $ } from "@xiaotianxt/monkey-tool";
           this.enabled = true;
           while (this.enabled) {
             await new Promise((r) => setTimeout(r, 1000));
-            const item = this.pop();
-            item && mockInput(item);
+            await sequentialMockInput();
           }
         } else {
           this.enabled = false;
@@ -145,5 +147,5 @@ import { $ } from "@xiaotianxt/monkey-tool";
     }
   }
 
-  new WordList();
+  const wordList = new WordList();
 })();

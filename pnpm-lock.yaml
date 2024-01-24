@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@xiaotianxt/monkey-tool':
-    specifier: ^0.0.2
-    version: 0.0.2(typescript@5.3.3)(vite@5.0.11)
+    specifier: ^0.1.0
+    version: 0.1.0(typescript@5.3.3)(vite@5.0.11)
 
 devDependencies:
   less:
@@ -500,8 +500,8 @@ packages:
     resolution: {integrity: sha512-KzfPTxVaWfB+eGcGdbSf4CWdaXcGDqckoeXUh7SB3fZdEtzPCK2Vq9B/lRRL3yutax/LWITz+SwvgyOxz5V75g==}
     dev: false
 
-  /@xiaotianxt/monkey-tool@0.0.2(typescript@5.3.3)(vite@5.0.11):
-    resolution: {integrity: sha512-zTvpkrW1xLxi3bdtDbrOt/mv8zzzm1/pLBoueJjAQTe6mlellUa2GvyFhbFr62rUnb23PcpKLZrE+KR+YWK0PQ==}
+  /@xiaotianxt/monkey-tool@0.1.0(typescript@5.3.3)(vite@5.0.11):
+    resolution: {integrity: sha512-xMc+9glm7q1hF6C5Zhw8PzwmFD16PKCHmuzKnfpwU6K98v5WJT5GAScv130Hqj8EQKSKzb8NvZSIM40nbQmToA==}
     dependencies:
       '@types/node': 20.11.5
       vite-plugin-dts: 3.7.1(@types/node@20.11.5)(typescript@5.3.3)(vite@5.0.11)
