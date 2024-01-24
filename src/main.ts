@@ -1,4 +1,4 @@
-import "./index.less";
+import "./main.less";
 
 (async function () {
   const $ = (selector: string, element: ParentNode = document) =>
@@ -32,6 +32,7 @@ import "./index.less";
   await wait(SEND_BTN, TEXT_AREA);
 
   const mockInput = async (text: string) => {
+    debugger;
     // 模拟输入
     const element = (await wait(TEXT_AREA)) as HTMLTextAreaElement;
     element.value = text;
@@ -81,8 +82,9 @@ import "./index.less";
         if ((e.target as HTMLInputElement).checked) {
           this.enabled = true;
           while (this.enabled) {
-            await this.pop();
             await new Promise((r) => setTimeout(r, 1000));
+            const item = this.pop();
+            item && mockInput(item);
           }
         } else {
           this.enabled = false;
@@ -93,7 +95,7 @@ import "./index.less";
       const input = document.createElement("input");
       input.addEventListener("paste", (e) => {
         e.preventDefault();
-        const text = (e as ClipboardEvent).clipboardData.getData("text");
+        const text = e.clipboardData?.getData("text") || "";
         const words = text.split(/\s+/);
         input.value = "";
         words.forEach((w) => this.push(w));
@@ -110,21 +112,25 @@ import "./index.less";
       this.wordContainer = document.createElement("div");
       this.node.appendChild(this.wordContainer);
 
+      this.wordHistory = document.createElement("div");
+      this.node.appendChild(this.wordHistory);
+
       document.body.appendChild(this.node);
     }
 
-    async pop(item?: string) {
+    pop(item?: string) {
       item = item || this.words.shift();
       if (!item) return;
       const div = this.memo.get(item);
       if (div) div.remove();
 
-      return mockInput(item);
+      return item;
     }
 
     remove(item: string) {
       const div = this.memo.get(item);
-      if (div) div.remove();
+      if (!div) throw new Error("Item not found");
+      div.remove();
 
       this.words = this.words.filter((w) => w !== item);
       this.memo.delete(item);
@@ -142,5 +148,6 @@ import "./index.less";
       div.addEventListener("click", () => this.remove(item));
     }
   }
-  const wordList = new WordList();
+
+  new WordList();
 })();

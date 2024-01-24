@@ -1,33 +1,17 @@
 {
   "name": "chatgpt-word-bot",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
   "type": "module",
-  "author": "xiaotianxt <tianyp@pku.edu.cn> (https://xiaotianxt.com/)",
-  "description": "配合词趣精灵使用的背单词小工具",
-  "files": [
-    "dist",
-    "index.d.ts"
-  ],
-  "main": "./dist/script.umd.cjs",
-  "module": "./dist/script.js",
-  "types": "./index.d.ts",
-  "exports": {
-    "types": "./index.d.ts",
-    "import": "./dist/script.js",
-    "require": "./dist/script.umd.cjs"
-  },
   "scripts": {
-    "dev": "vite build --watch --mode development",
-    "build": "vite build"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/node": "^20.10.8",
     "less": "^4.2.0",
-    "sass": "^1.69.7",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
-    "vite-plugin-svgr": "^4.2.0",
-    "vite-userscript-plugin": "^1.10.0"
+    "vite-plugin-monkey": "^3.5.1"
   }
 }
