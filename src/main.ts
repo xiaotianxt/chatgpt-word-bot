@@ -1,11 +1,7 @@
 import "./main.less";
+import { $ } from "@xiaotianxt/monkey-tool";
 
 (async function () {
-  const $ = (selector: string, element: ParentNode = document) =>
-    element.querySelector(selector);
-  const $$ = (selector: string, element: ParentNode = document) =>
-    element.querySelectorAll(selector);
-
   const SEND_BTN = "button[data-testid='send-button']";
   const SEND_BTN_AVAILABLE = "*[data-testid='send-button']:not([disabled])";
   const STOP_BTN = "button[aria-label='Stop generating']";
@@ -15,7 +11,7 @@ import "./main.less";
   const wait = async (...elements: string[]) => {
     if (elements.every((e) => !!$(e))) return $(elements[0]) as HTMLElement;
     return new Promise<HTMLElement>((r) => {
-      const observer = new MutationObserver((mutations) => {
+      const observer = new MutationObserver(() => {
         if (elements.every((e) => !!$(e))) {
           observer.disconnect();
           r($(elements[0]) as HTMLElement);
