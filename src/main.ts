@@ -42,18 +42,18 @@ import "./main.less";
     (await wait(SEND_BTN_AVAILABLE)).click();
 
     // 检查回应是否完成
-    const checkResult = async (level = 5) => {
-      if (level === 0) throw new Error("Too many errors");
+    const waitUntilFinished = async (retry = 5) => {
+      if (retry === 0) throw new Error("Too many errors");
       await wait(STOP_BTN);
       await Promise.race([wait(ERROR_BTN), wait(SEND_BTN)]);
       if ($(ERROR_BTN)) {
         ($(ERROR_BTN) as HTMLButtonElement).click();
 
-        checkResult(level - 1);
+        waitUntilFinished(retry - 1);
       }
     };
 
-    await checkResult();
+    await waitUntilFinished();
   };
 
   class WordList {
