@@ -68,7 +68,7 @@
     padding: .125rem;
     border-radius: .25rem;
 
-    & > div:not(:last-child) {
+    &:not(:last-child) > div:not(:last-child) {
       border-bottom: 1px solid var(--main-surface-secondary);
       padding: 0.1rem 0;
     }
@@ -76,6 +76,14 @@
     & > div:hover {
       background: var(--main-surface-secondary);
       transition: ease 0.1s;
+      cursor: pointer;
     }
+  }
+
+  &>div:last-child {
+    color: var(--text-quaternary);
+    max-height: 10rem;
+    // add a black bolder line to the top
+    border-top: 1px solid var(--main-surface-primary);
   }
 }

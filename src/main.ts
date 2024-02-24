@@ -1,5 +1,10 @@
 import "./main.less";
-import { $, SequentialExecutor } from "@xiaotianxt/monkey-tool";
+import {
+  $,
+  SequentialExecutor,
+  sleep,
+  focusOnText,
+} from "@xiaotianxt/monkey-tool";
 (async function () {
   const inputExecutor = new SequentialExecutor();
   const SEND_BTN = "button[data-testid='send-button']";
@@ -7,6 +12,7 @@ import { $, SequentialExecutor } from "@xiaotianxt/monkey-tool";
   const STOP_BTN = "button[aria-label='Stop generating']";
   const TEXT_AREA = "#prompt-textarea";
   const ERROR_BTN = "button:has([points='1 4 1 10 7 10'])";
+  const PRESENTATION_DIV = '[role="presentation"]';
 
   const wait = async (...elements: string[]) => {
     if (elements.every((e) => !!$(e))) return $(elements[0]) as HTMLElement;
@@ -50,7 +56,11 @@ import { $, SequentialExecutor } from "@xiaotianxt/monkey-tool";
     // 链接成功建立
     (await wait(SEND_BTN_AVAILABLE)).click();
 
+    // 回复完成
     await waitUntilFinished();
+
+    // 有的时候回复还没有完成就会开始，这里延迟一秒试试解决这个问题
+    await sleep(1000);
   };
 
   const sequentialMockInput = async () => inputExecutor.execute(mockInput);
@@ -119,8 +129,7 @@ import { $, SequentialExecutor } from "@xiaotianxt/monkey-tool";
     pop(item?: string) {
       item = item || this.words.shift();
       if (!item) return;
-      const div = this.memo.get(item);
-      if (div) div.remove();
+      this.remove(item);
 
       return item;
     }
@@ -133,7 +142,11 @@ import { $, SequentialExecutor } from "@xiaotianxt/monkey-tool";
       this.words = this.words.filter((w) => w !== item);
       this.memo.delete(item);
 
-      this.wordHistory.appendChild(div.cloneNode(true));
+      const remNode = div.cloneNode(true) as HTMLDivElement;
+      remNode.addEventListener("click", () =>
+        focusOnText($(PRESENTATION_DIV), item)
+      );
+      this.wordHistory.appendChild(remNode);
     }
 
     push(item: string) {
